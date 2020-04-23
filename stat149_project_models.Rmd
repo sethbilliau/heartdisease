@@ -6,3 +6,38 @@ output: pdf_document
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
+
+```{r}
+# Begin building model
+data = read.csv("data/chd_risk.csv")
+# force smoker from categorical to numeric
+data$smoker = unclass(data$smoker)
+data_na = na.omit(data)
+nrow(data_na)
+nrow(data)
+```
+
+```{r}
+summary(data)
+# glm with individual predictors, smoker and cigPerDay are multiplied based on first principles
+glm_all = glm(CHD_Risk ~ age + education + totChol + sysBP + diaBP + BMI + heartRate + glucose + sex + smoker:cigsPerDay + OnBPMeds + PrevStroke + Hyp + Diab, family = binomial, data = data_na)
+summary(glm_all)
+```
+
+```{r}
+
+
+```
+
+```{r}
+# beginning analysis of deviance table. Decided not to do 1-term models with every predictor because that would take forever, so I used the Wald test predictors
+glm0 = glm(CHD_Risk ~ 1, family = binomial, data = data_na)
+glm1 = glm(CHD_Risk ~ 1 + age, family = binomial, data = data_na)
+glm2 = glm(CHD_Risk ~ 1 + sysBP, family = binomial, data = data_na)
+glm3 = glm(CHD_Risk ~ 1 + sex, family = binomial, data = data_na)
+glm4 = glm(CHD_Risk ~ 1 + smoker:cigsPerDay, family = binomial, data = data_na)
+
+m = glm1
+summary(m)
+```
+
