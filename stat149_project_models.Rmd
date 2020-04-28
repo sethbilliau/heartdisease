@@ -8,6 +8,11 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ```{r}
+# load libraries
+library(arm)
+```
+
+```{r}
 # Begin building model
 data = read.csv("data/chd_risk.csv")
 # force smoker from categorical to numeric
@@ -22,11 +27,6 @@ summary(data)
 # glm with individual predictors, smoker and cigPerDay are multiplied based on first principles
 glm_all = glm(CHD_Risk ~ age + education + totChol + sysBP + diaBP + BMI + heartRate + glucose + sex + smoker:cigsPerDay + OnBPMeds + PrevStroke + Hyp + Diab, family = binomial, data = data_na)
 summary(glm_all)
-```
-
-```{r}
-
-
 ```
 
 ```{r}
@@ -106,4 +106,45 @@ anova(m, glm18, test = "Chisq")
 m = glm18
 ```
 
+```{r}
+# examine model fit
+summary(m)
+
+3120.5 / 3655 # residual deviance / df
+
+# hosmer-lemeshow function (source: lowbwt-03.R)
+hosmerlem = function (y, yhat, g = 10) {
+  cutyhat = cut(yhat, breaks = quantile(yhat, probs = seq(0, 1, 1/g)), 
+                include.lowest = T)
+  obs = xtabs(cbind(1 - y, y) ~ cutyhat)
+  expect = xtabs(cbind(1 - yhat, yhat) ~ cutyhat)
+  chisq = sum((obs - expect)^2 / expect)
+  P = 1 - pchisq(chisq, g - 2)
+  c("X^2" = chisq, Df = g - 2, "P(>Chi)" = P)
+}
+
+# try different values of g to see if results are sensitive to choice
+hosmerlem(m$y, fitted(m)) # g = 10
+hosmerlem(m$y, fitted(m), g = 5) # g = 5
+hosmerlem(m$y, fitted(m), g = 15) # g = 15
+```
+
+```{r}
+# plot averaged residuals vs. fitted probabilities
+binnedplot(fitted(m), residuals(m, type = "response"),
+  xlab = "Averaged Fitted Probabilities",
+  ylab = "Averaged Residuals",
+  pch = 19, col.pts = "red", cex.pts = 1.5,
+  main = "Averaged Residuals vs. Fitted Plot for Final Model")
+abline(h = 0, lty = 2, col = "green")
+```
+
+```{r}
+# plot cook's distances
+plot(cooks.distance(m), type = "h", lwd = 2,
+  xlab = "Observation Index",
+  ylab = "Cook's Distances",
+  main = "Cook's Distances for Final Model")
+abline(h = 1, lty = 2, col = "red")
+```
 
