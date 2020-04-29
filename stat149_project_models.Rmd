@@ -103,7 +103,48 @@ anova(m, glm18, test = "Chisq")
 
 ```{r}
 # working model is glm18: age + sysBP + sex + smoker:cigsPerDay + glucose + totChol
+# look for 7th predictors
 m = glm18
+glm24 = glm(CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + glucose + totChol + education, family = binomial, data = data_na)
+glm25 = glm(CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + glucose + totChol + OnBPMeds, family = binomial, data = data_na)
+glm26 = glm(CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + glucose + totChol + PrevStroke, family = binomial, data = data_na)
+glm27 = glm(CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + glucose + totChol + Hyp, family = binomial, data = data_na)
+glm28 = glm(CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + glucose + totChol + diaBP, family = binomial, data = data_na)
+glm29 = glm(CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + glucose + totChol + heartRate, family = binomial, data = data_na)
+
+
+pred7 <- list(glm24, glm25, glm26, glm27, glm28, glm29)
+for (model_i in pred7){
+  print(model_i$call)
+  print(model_i$deviance)
+}
+anova(m, glm24, test = "Chisq")
+```
+
+```{r}
+# Interaction terms
+int1 = glm(CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + glucose + totChol + age:sysBP, family = binomial, data = data_na)
+int2 = glm(CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + glucose + totChol + age:sex, family = binomial, data = data_na)
+int3 = glm(CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + glucose + totChol + age:smoker:cigsPerDay, family = binomial, data = data_na)
+int4 = glm(CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + glucose + totChol + age:glucose, family = binomial, data = data_na)
+int5 = glm(CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + glucose + totChol + age:totChol, family = binomial, data = data_na)
+int6 = glm(CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + glucose + totChol + sysBP:sex, family = binomial, data = data_na)
+int7 = glm(CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + glucose + totChol + sysBP:smoker:cigsPerDay, family = binomial, data = data_na)
+int8 = glm(CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + glucose + totChol + sysBP:glucose, family = binomial, data = data_na)
+int9 = glm(CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + glucose + totChol + sysBP:totChol, family = binomial, data = data_na)
+int10 = glm(CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + glucose + totChol + sex:smoker:cigsPerDay, family = binomial, data = data_na)
+int11 = glm(CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + glucose + totChol + sex:glucose, family = binomial, data = data_na)
+int12 = glm(CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + glucose + totChol + sex:totChol, family = binomial, data = data_na)
+int13 = glm(CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + glucose + totChol + smoker:cigsPerDay:glucose, family = binomial, data = data_na)
+int14 = glm(CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + glucose + totChol + smoker:cigsPerDay:totChol, family = binomial, data = data_na)
+int15 = glm(CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + glucose + totChol + glucose:totChol, family = binomial, data = data_na)
+
+inter1 <- list(int1, int2, int3, int4, int5, int6, int7, int8, int9, int10, int11, int12, int13, int14, int15)
+for (model_i in inter1){
+  print(model_i$call)
+  print(model_i$deviance)
+}
+anova(m, int15, test = "Chisq")
 ```
 
 ```{r}
