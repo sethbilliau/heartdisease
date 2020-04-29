@@ -10,6 +10,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r}
 # load libraries
 library(arm)
+library(rpart)
 ```
 
 ```{r}
@@ -189,3 +190,21 @@ plot(cooks.distance(m), type = "h", lwd = 2,
 abline(h = 1, lty = 2, col = "red")
 ```
 
+```{r}
+# alt modeling approach: classification trees
+# note: trees can't handle interaction terms
+tree1 = rpart(CHD_Risk ~ ., data = data, method = "class", parms = list(split = "information"))
+tree1 # stuck at the root
+
+# try loosening constraints for growth, using 1-SE method to find optimal cp
+# from help for rpart.control: "any split that does not decrease the overall lack of fit
+# by a factor of cp is not attempted"
+tree2 = rpart(CHD_Risk ~ ., data = data, method = "class", parms = list(split = "information"),
+              control = rpart.control(minsplit = 1, cp = 0.001))
+printcp(tree2)
+plotcp(tree2)
+
+tree3 = rpart(CHD_Risk ~ ., data = data, method = "class", parms = list(split = "information"),
+              control = rpart.control(minsplit = 1, minbucket = 1, cp = 0.0072464))
+tree3
+```
