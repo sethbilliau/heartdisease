@@ -97,7 +97,7 @@ mod.vif.lm <- lm(as.numeric(CHD_Risk) ~ ., data=data_raw)
 vif(mod.vif.lm)
 ```
 
-Because all values in the last column are less than $3.1623 = \sqrt(10)$, there is not significant/strong evidence of multicollinearity.
+Because all values in the last column are less than $3.1623 = \sqrt{10}$, there is not significant/strong evidence of multicollinearity.
 
 
 
