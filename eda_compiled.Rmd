@@ -21,23 +21,47 @@ library(car)
 
 Read in the data and make note of missing values:
 
-```{r}
+```{r GetData}
 data_raw = read.csv("data/chd_risk.csv")
 summary(data_raw)
 ```
 
+## Check for missingness
+
 Count number of missing predictors in each variable: 
 
-```{r}
+```{r MissingTable}
 # Generate the number of missing values for each predictor
 apply(is.na(data_raw), 2, sum)
 missing_preds = c("education", "cigsPerDay", "totChol", "BMI", 
                   "heartRate", "glucose", "OnBPMeds")
 ```
 
+## Visualizing the Response 
+
+```{r ResponseBarChart}
+# Labels for ticks
+N_label = paste("No (", round(mean(data_raw$CHD_Risk == "No"), 2)*100, "%)", sep="")
+Y_label = paste("Yes (", round(mean(data_raw$CHD_Risk == "Yes"), 2)*100, "%)", sep="")
+
+# Plot bar chart
+p <- ggplot(data=data_raw, aes(x=as.factor(CHD_Risk))) +
+  geom_histogram(stat="count",fill="red",
+                 aes(y=..count../sum(..count..)),
+                 alpha = 0.5) + 
+    labs(title="Frequency of CHD_Risk") +
+    xlab("CHD_Risk") +
+    ylab("Frequency") +
+    scale_x_discrete(breaks=c("No","Yes"), labels=c(N_label,Y_label)) +
+    theme_bw()
+p 
+```
+
+## Visualizing the Predictors 
+
 Visualize distribution of quantitative predictors conditional on the CHD outcome: 
 
-```{r, eval = FALSE}
+```{r QuantPredictors, eval = FALSE}
 quant_preds = c("age", "cigsPerDay", "totChol", "sysBP", 
                   "diaBP", "BMI", "heartRate", "glucose")
 
@@ -66,11 +90,11 @@ annotate_figure(figure1,
 
 Visualizing the Qualitative predictors by showing their distributions conditional on the outcome: 
 
-```{r}
+```{r CatPredictors}
 # Address Categorical predictors
 cat_preds = c("education", "sex", "smoker", "OnBPMeds", 
               "PrevStroke", "Hyp", "Diab")
-get_cond_prob_table = function(TABLE, flag = 0) { 
+get_cond_prob_table = function(TABLE) { 
   col1 = TABLE[,1] / sum(TABLE[,1])
   col2 = TABLE[,2] / sum(TABLE[,2])
   return(cbind(No=col1, Yes=col2))
@@ -91,8 +115,8 @@ round(tab_prob_Yes,3)
 
 Check for collinearity with GVIF. 
 
-```{r}
-# Check for collinearityw
+```{r Multicollinearity}
+# Check for multicollinearity
 mod.vif.lm <- lm(as.numeric(CHD_Risk) ~ ., data=data_raw)
 vif(mod.vif.lm)
 ```
