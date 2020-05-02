@@ -1,3 +1,7 @@
+# Appendix C: Code
+
+Authors: Seth Billiau, Katherine Deng, Karissa Huang, and Sophia Li
+
 # Introduction
 
 This is a code appendix for our analysis of the Framingham Heart Study
