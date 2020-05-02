@@ -10,11 +10,8 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r}
 # load libraries
 library(arm)
-<<<<<<< HEAD
 library(mgcv)
-=======
 library(rpart)
->>>>>>> 345ae234889a67f56afbbf47c037297c2daad617
 ```
 
 ```{r}
@@ -195,7 +192,6 @@ abline(h = 1, lty = 2, col = "red")
 ```
 
 ```{r}
-<<<<<<< HEAD
 gam.init <- gam(CHD_Risk~s(age)+education+s(cigsPerDay, smoker)+s(totChol)+s(sysBP)+s(diaBP)+s(BMI)+s(heartRate)+s(glucose)+sex+OnBPMeds+PrevStroke+Hyp+Diab, family = binomial, data = data_na)
 gam.age1 <- gam(CHD_Risk~education+s(cigsPerDay, smoker)+s(totChol)+s(sysBP)+s(diaBP)+s(BMI)+s(heartRate)+s(glucose)+sex+OnBPMeds+PrevStroke+Hyp+Diab, family = binomial, data = data_na)
 gam.education1 <- gam(CHD_Risk~s(age)+s(cigsPerDay,smoker)+s(totChol)+s(sysBP)+s(diaBP)+s(BMI)+s(heartRate)+s(glucose)+sex+OnBPMeds+PrevStroke+Hyp+Diab, family = binomial, data = data_na)
@@ -488,4 +484,3 @@ tree3 = rpart(CHD_Risk ~ ., data = data, method = "class", parms = list(split = 
               control = rpart.control(minsplit = 1, minbucket = 1, cp = 0.0072464))
 tree3
 ```
->>>>>>> 345ae234889a67f56afbbf47c037297c2daad617
