@@ -304,7 +304,7 @@ for (model_i in inter1){
 }
 anova(m, int35, test = "Chisq")
 ```
-```
+
 
 
 ```{r}
