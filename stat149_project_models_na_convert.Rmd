@@ -2,6 +2,9 @@
 title: "Stat 149 Project Models"
 output: pdf_document
 ---
+```{r}
+summary(m)
+```
 
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(echo = TRUE)
