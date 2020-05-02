@@ -1,37 +1,7 @@
 # Introduction
 
-In this project, we use data from the famous Framingham Heart Study to
-model the risk of future coronary heart disease (CHD) using a variety of
-sociodemographic and health risk measures. Our primary goal is
-statistical inference—although multiple models using machine learning
-and other methods have already been developed to accurately predict CHD
-risk, a focus on inferring the relationships between certain risk
-factors and CHD risk will provide the insights necessary for
-.\\footnote{<http://www.onlinejacc.org/content/71/11_Supplement/A1483>}
-Especially as heart disease claims more lives than any other cause of
-death in the United States, and as more and more research emerges
-revealing strong ties between sociodemographic factors and health
-outcomes, understanding which factors influence one’s risk of future
-CHD—and how—lays the groundwork for more comprehensive and targeted
-prevention, and the distribution of limited healthcare resources to
-those at highest risk.
-
-The Framingham Heart Study is an ongoing research study involving
-cohorts of residents from the town of Framingham, Massachusetts. The
-data supplied for this project includes 4,238 individuals. The response
-variable, , is a binary variable indicating whether each person has a
-ten-year risk of coronary heart disease. There are fifteen possible
-predictor variables, both quantitative and categorical, consisting of
-socioedemographic factors such as age and educational attainment, as
-well as health information such as systolic blood pressure and smoking
-status.
-
-Since our response variable is binary, our task for this project is
-classification. Our goal is to develop a model using the given
-predictors that classifies individuals as having or not having a
-ten-year risk of CHD. Since our primary focus is inference, we evaluate
-and select models based on the explanatory power they have on the
-response and their appropriateness for the data.
+This is a code appendix for our analysis of the Framingham Heart Study
+using GLMs and GAMS.
 
 # EDA
 
@@ -416,7 +386,7 @@ anova(glm16, m, test="Chisq")
 
 Baseline model: age, sysBP, sex, smoker:cigsPerDay, glucose.
 
-Now,look for next predictor\! Ignore diaBP and heartrate for now.
+Now, look for next predictor\! Ignore diaBP and heartrate for now.
 
 ``` r
 m = glm16
@@ -472,8 +442,9 @@ anova(m, glm18, test = "Chisq")
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-Working model is glm18: age + sysBP + sex + smoker:cigsPerDay + glucose
-+ totChol. Look for 7th predictors.
+Working model is glm18:
+\(age + sysBP + sex + smoker:cigsPerDay + glucose + totChol\). Look for
+7th predictors.
 
 ``` r
 m = glm18
@@ -629,7 +600,6 @@ final.glm = glm(CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + glucose +
 Examine model fit
 
 ``` r
-# 
 summary(m)
 ```
 
@@ -967,59 +937,13 @@ for (model_i in pred5){
   print(summary(model_i)$call)
   print(summary(model_i)$deviance)
 }
-```
 
-    ## glm(formula = CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + 
-    ##     education, family = binomial, data = data_na)
-    ## [1] 3242.524
-    ## glm(formula = CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + 
-    ##     totChol, family = binomial, data = data_na)
-    ## [1] 3242.553
-    ## glm(formula = CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + 
-    ##     diaBP, family = binomial, data = data_na)
-    ## [1] 3245.684
-    ## glm(formula = CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + 
-    ##     BMI, family = binomial, data = data_na)
-    ## [1] 3245.329
-    ## glm(formula = CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + 
-    ##     heartRate, family = binomial, data = data_na)
-    ## [1] 3245.893
-    ## glm(formula = CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + 
-    ##     glucose, family = binomial, data = data_na)
-    ## [1] 3224.086
-    ## glm(formula = CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + 
-    ##     OnBPMeds, family = binomial, data = data_na)
-    ## [1] 3242.964
-    ## glm(formula = CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + 
-    ##     PrevStroke, family = binomial, data = data_na)
-    ## [1] 3240.315
-    ## glm(formula = CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + 
-    ##     Hyp, family = binomial, data = data_na)
-    ## [1] 3242.288
-    ## glm(formula = CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + 
-    ##     Diab, family = binomial, data = data_na)
-    ## [1] 3233.496
-    ## glm(formula = CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + 
-    ##     BMI.na, family = binomial, data = data_na)
-    ## [1] 3231.413
-
-``` r
 anova(glm16, m, test="Chisq")
 ```
 
-    ## Analysis of Deviance Table
-    ## 
-    ## Model 1: CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + glucose
-    ## Model 2: CHD_Risk ~ 1 + age + sysBP + smoker:cigsPerDay + sex
-    ##   Resid. Df Resid. Dev Df Deviance  Pr(>Chi)    
-    ## 1      4232     3224.1                          
-    ## 2      4233     3245.9 -1   -21.82 2.995e-06 ***
-    ## ---
-    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+Baseline model: age, sysBP, sex, smoker:cigsPerDay, glucose.
 
-Baseline model: age, sysBP, sex, smoker:cigsPerDay, glucose
-
-Look for next predictor\! Ignore diaBP and heartrate for now
+Look for next predictor\! Ignore diaBP and heartrate for now.
 
 ``` r
 m = glm16
@@ -1037,50 +961,11 @@ for (model_i in pred6){
   print(model_i$call)
   print(model_i$deviance)
 }
-```
-
-    ## glm(formula = CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + 
-    ##     glucose + education, family = binomial, data = data_na)
-    ## [1] 3220.609
-    ## glm(formula = CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + 
-    ##     glucose + totChol, family = binomial, data = data_na)
-    ## [1] 3220.927
-    ## glm(formula = CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + 
-    ##     glucose + BMI, family = binomial, data = data_na)
-    ## [1] 3223.803
-    ## glm(formula = CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + 
-    ##     glucose + OnBPMeds, family = binomial, data = data_na)
-    ## [1] 3221.249
-    ## glm(formula = CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + 
-    ##     glucose + PrevStroke, family = binomial, data = data_na)
-    ## [1] 3218.611
-    ## glm(formula = CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + 
-    ##     glucose + Hyp, family = binomial, data = data_na)
-    ## [1] 3219.987
-    ## glm(formula = CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + 
-    ##     glucose + Diab, family = binomial, data = data_na)
-    ## [1] 3223.58
-    ## glm(formula = CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + 
-    ##     glucose + BMI.na, family = binomial, data = data_na)
-    ## [1] 3209.296
-
-``` r
 anova(m, glm23b, test = "Chisq")
 ```
 
-    ## Analysis of Deviance Table
-    ## 
-    ## Model 1: CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + glucose
-    ## Model 2: CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + glucose + 
-    ##     BMI.na
-    ##   Resid. Df Resid. Dev Df Deviance  Pr(>Chi)    
-    ## 1      4232     3224.1                          
-    ## 2      4231     3209.3  1    14.79 0.0001201 ***
-    ## ---
-    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-
-Working model is glm23b: age + sysBP + sex + smoker:cigsPerDay + glucose
-+ BMI.na
+Working model is glm23b:
+\(age + sysBP + sex + smoker:cigsPerDay + glucose + BMI.na\)
 
 Look for 7th predictors:
 
@@ -1101,48 +986,11 @@ for (model_i in pred7){
   print(model_i$call)
   print(model_i$deviance)
 }
-```
-
-    ## glm(formula = CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + 
-    ##     glucose + BMI.na + education, family = binomial, data = data_na)
-    ## [1] 3205.643
-    ## glm(formula = CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + 
-    ##     glucose + BMI.na + OnBPMeds, family = binomial, data = data_na)
-    ## [1] 3206.521
-    ## glm(formula = CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + 
-    ##     glucose + BMI.na + PrevStroke, family = binomial, data = data_na)
-    ## [1] 3205.261
-    ## glm(formula = CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + 
-    ##     glucose + BMI.na + Hyp, family = binomial, data = data_na)
-    ## [1] 3205.317
-    ## glm(formula = CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + 
-    ##     glucose + BMI.na + diaBP, family = binomial, data = data_na)
-    ## [1] 3209.279
-    ## glm(formula = CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + 
-    ##     glucose + BMI.na + heartRate, family = binomial, data = data_na)
-    ## [1] 3209.184
-    ## glm(formula = CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + 
-    ##     glucose + BMI.na + totChol, family = binomial, data = data_na)
-    ## [1] 3205.576
-
-``` r
 anova(m, glm26, test = "Chisq")
 ```
 
-    ## Analysis of Deviance Table
-    ## 
-    ## Model 1: CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + glucose + 
-    ##     BMI.na
-    ## Model 2: CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + glucose + 
-    ##     BMI.na + PrevStroke
-    ##   Resid. Df Resid. Dev Df Deviance Pr(>Chi)  
-    ## 1      4231     3209.3                       
-    ## 2      4230     3205.3  1   4.0345  0.04458 *
-    ## ---
-    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-
-Working model is glm26: age + sysBP + sex + smoker:cigsPerDay + glucose
-+ BMI.na + PrevStroke
+Working model is glm26:
+\(age + sysBP + sex + smoker:cigsPerDay + glucose + BMI.na + PrevStroke\)
 
 Look for 8th predictors:
 
@@ -1160,45 +1008,11 @@ for (model_i in pred8){
   print(model_i$call)
   print(model_i$deviance)
 }
-```
-
-    ## glm(formula = CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + 
-    ##     glucose + BMI.na + PrevStroke + education, family = binomial, 
-    ##     data = data_na)
-    ## [1] 3201.623
-    ## glm(formula = CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + 
-    ##     glucose + BMI.na + PrevStroke + OnBPMeds, family = binomial, 
-    ##     data = data_na)
-    ## [1] 3203.139
-    ## glm(formula = CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + 
-    ##     glucose + BMI.na + PrevStroke + Hyp, family = binomial, data = data_na)
-    ## [1] 3201.67
-    ## glm(formula = CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + 
-    ##     glucose + BMI.na + Diab, family = binomial, data = data_na)
-    ## [1] 3208.965
-    ## glm(formula = CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + 
-    ##     glucose + BMI.na + BMI.na, family = binomial, data = data_na)
-    ## [1] 3209.296
-    ## glm(formula = CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + 
-    ##     glucose + BMI.na + totChol, family = binomial, data = data_na)
-    ## [1] 3205.576
-
-``` r
 anova(m, glm31, test="Chisq")
 ```
 
-    ## Analysis of Deviance Table
-    ## 
-    ## Model 1: CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + glucose + 
-    ##     BMI.na + PrevStroke
-    ## Model 2: CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + glucose + 
-    ##     BMI.na + PrevStroke + education
-    ##   Resid. Df Resid. Dev Df Deviance Pr(>Chi)
-    ## 1      4230     3205.3                     
-    ## 2      4226     3201.6  4   3.6383   0.4572
-
-Working model is glm26: age + sysBP + sex + smoker:cigsPerDay + glucose
-+ BMI.na + PrevStroke
+Working model is glm26:
+\(age + sysBP + sex + smoker:cigsPerDay + glucose + BMI.na + PrevStroke\)
 
 Look for two-way Interaction Terms:
 
@@ -1232,111 +1046,11 @@ for (model_i in inter1){
   print(model_i$call)
   print(model_i$deviance)
 }
-```
-
-    ## glm(formula = CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + 
-    ##     glucose + BMI.na + PrevStroke + age:sysBP, family = binomial, 
-    ##     data = data_na)
-    ## [1] 3203.869
-    ## glm(formula = CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + 
-    ##     glucose + BMI.na + PrevStroke + age:sex, family = binomial, 
-    ##     data = data_na)
-    ## [1] 3205.261
-    ## glm(formula = CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + 
-    ##     glucose + BMI.na + PrevStroke + age:smoker:cigsPerDay, family = binomial, 
-    ##     data = data_na)
-    ## [1] 3205.212
-    ## glm(formula = CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + 
-    ##     glucose + BMI.na + PrevStroke + age:glucose, family = binomial, 
-    ##     data = data_na)
-    ## [1] 3205.261
-    ## glm(formula = CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + 
-    ##     glucose + BMI.na + PrevStroke + age:BMI.na, family = binomial, 
-    ##     data = data_na)
-    ## [1] 3205.159
-    ## glm(formula = CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + 
-    ##     glucose + BMI.na + PrevStroke + age:PrevStroke, family = binomial, 
-    ##     data = data_na)
-    ## [1] 3203.38
-    ## glm(formula = CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + 
-    ##     glucose + BMI.na + PrevStroke + sysBP:sex, family = binomial, 
-    ##     data = data_na)
-    ## [1] 3201.204
-    ## glm(formula = CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + 
-    ##     glucose + BMI.na + PrevStroke + sysBP:smoker:cigsPerDay, 
-    ##     family = binomial, data = data_na)
-    ## [1] 3204.9
-    ## glm(formula = CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + 
-    ##     glucose + BMI.na + PrevStroke + sysBP:glucose, family = binomial, 
-    ##     data = data_na)
-    ## [1] 3205.254
-    ## glm(formula = CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + 
-    ##     glucose + BMI.na + PrevStroke + sysBP:BMI.na, family = binomial, 
-    ##     data = data_na)
-    ## [1] 3205.225
-    ## glm(formula = CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + 
-    ##     glucose + BMI.na + PrevStroke + sysBP:PrevStroke, family = binomial, 
-    ##     data = data_na)
-    ## [1] 3205.165
-    ## glm(formula = CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + 
-    ##     glucose + BMI.na + PrevStroke + sex:smoker:cigsPerDay, family = binomial, 
-    ##     data = data_na)
-    ## [1] 3205.119
-    ## glm(formula = CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + 
-    ##     glucose + BMI.na + PrevStroke + sex:glucose, family = binomial, 
-    ##     data = data_na)
-    ## [1] 3204.71
-    ## glm(formula = CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + 
-    ##     glucose + BMI.na + PrevStroke + sex:BMI.na, family = binomial, 
-    ##     data = data_na)
-    ## [1] 3201.326
-    ## glm(formula = CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + 
-    ##     glucose + BMI.na + PrevStroke + sex:PrevStroke, family = binomial, 
-    ##     data = data_na)
-    ## [1] 3205.257
-    ## glm(formula = CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + 
-    ##     glucose + BMI.na + PrevStroke + smoker:cigsPerDay:glucose, 
-    ##     family = binomial, data = data_na)
-    ## [1] 3204.957
-    ## glm(formula = CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + 
-    ##     glucose + BMI.na + PrevStroke + smoker:cigsPerDay:BMI.na, 
-    ##     family = binomial, data = data_na)
-    ## [1] 3203.475
-    ## glm(formula = CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + 
-    ##     glucose + BMI.na + PrevStroke + smoker:cigsPerDay:PrevStroke, 
-    ##     family = binomial, data = data_na)
-    ## [1] 3205.257
-    ## glm(formula = CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + 
-    ##     glucose + BMI.na + PrevStroke + glucose:BMI.na, family = binomial, 
-    ##     data = data_na)
-    ## [1] 3205.228
-    ## glm(formula = CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + 
-    ##     glucose + BMI.na + PrevStroke + glucose:PrevStroke, family = binomial, 
-    ##     data = data_na)
-    ## [1] 3204.898
-    ## glm(formula = CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + 
-    ##     glucose + BMI.na + PrevStroke + BMI.na:PrevStroke, family = binomial, 
-    ##     data = data_na)
-    ## [1] 3204.873
-
-``` r
 anova(m, int7, test = "Chisq")
 ```
 
-    ## Analysis of Deviance Table
-    ## 
-    ## Model 1: CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + glucose + 
-    ##     BMI.na + PrevStroke
-    ## Model 2: CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + glucose + 
-    ##     BMI.na + PrevStroke + sysBP:sex
-    ##   Resid. Df Resid. Dev Df Deviance Pr(>Chi)  
-    ## 1      4230     3205.3                       
-    ## 2      4229     3201.2  1   4.0576  0.04397 *
-    ## ---
-    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-
-Working model is int7: age + sysBP + sex + smoker:cigsPerDay + glucose +
-BMI.na + PrevStroke + sysBP:sex.
+Working model is int7:
+\(age + sysBP + sex + smoker:cigsPerDay + glucose + BMI.na + PrevStroke + sysBP:sex\).
 
 Look for two-way Interaction Terms:
 
@@ -1370,108 +1084,8 @@ for (model_i in inter1){
   print(model_i$call)
   print(model_i$deviance)
 }
-```
-
-    ## glm(formula = CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + 
-    ##     glucose + BMI.na + PrevStroke + sysBP:sex, family = binomial, 
-    ##     data = data_na)
-    ## [1] 3201.204
-    ## glm(formula = CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + 
-    ##     glucose + BMI.na + PrevStroke + BMI.na:PrevStroke + sex:sysBP, 
-    ##     family = binomial, data = data_na)
-    ## [1] 3200.834
-    ## glm(formula = CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + 
-    ##     glucose + BMI.na + PrevStroke + age:sex + sex:sysBP, family = binomial, 
-    ##     data = data_na)
-    ## [1] 3200.771
-    ## glm(formula = CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + 
-    ##     glucose + BMI.na + PrevStroke + age:smoker:cigsPerDay + sex:sysBP, 
-    ##     family = binomial, data = data_na)
-    ## [1] 3201.204
-    ## glm(formula = CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + 
-    ##     glucose + BMI.na + PrevStroke + age:glucose + sex:sysBP, 
-    ##     family = binomial, data = data_na)
-    ## [1] 3201.201
-    ## glm(formula = CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + 
-    ##     glucose + BMI.na + PrevStroke + age:BMI.na + sex:sysBP, family = binomial, 
-    ##     data = data_na)
-    ## [1] 3201.11
-    ## glm(formula = CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + 
-    ##     glucose + BMI.na + PrevStroke + age:PrevStroke + sex:sysBP, 
-    ##     family = binomial, data = data_na)
-    ## [1] 3199.281
-    ## glm(formula = CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + 
-    ##     glucose + BMI.na + PrevStroke + sysBP:sex + sex:sysBP, family = binomial, 
-    ##     data = data_na)
-    ## [1] 3201.204
-    ## glm(formula = CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + 
-    ##     glucose + BMI.na + PrevStroke + sysBP:smoker:cigsPerDay + 
-    ##     sex:sysBP, family = binomial, data = data_na)
-    ## [1] 3201.197
-    ## glm(formula = CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + 
-    ##     glucose + BMI.na + PrevStroke + sysBP:glucose + sex:sysBP, 
-    ##     family = binomial, data = data_na)
-    ## [1] 3201.155
-    ## glm(formula = CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + 
-    ##     glucose + BMI.na + PrevStroke + sysBP:BMI.na + sex:sysBP, 
-    ##     family = binomial, data = data_na)
-    ## [1] 3201.148
-    ## glm(formula = CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + 
-    ##     glucose + BMI.na + PrevStroke + sysBP:PrevStroke + sex:sysBP, 
-    ##     family = binomial, data = data_na)
-    ## [1] 3201.141
-    ## glm(formula = CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + 
-    ##     glucose + BMI.na + PrevStroke + sex:smoker:cigsPerDay + sex:sysBP, 
-    ##     family = binomial, data = data_na)
-    ## [1] 3201.172
-    ## glm(formula = CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + 
-    ##     glucose + BMI.na + PrevStroke + sex:glucose + sex:sysBP, 
-    ##     family = binomial, data = data_na)
-    ## [1] 3200.845
-    ## glm(formula = CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + 
-    ##     glucose + BMI.na + PrevStroke + sex:BMI.na + sex:sysBP, family = binomial, 
-    ##     data = data_na)
-    ## [1] 3197.467
-    ## glm(formula = CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + 
-    ##     glucose + BMI.na + PrevStroke + sex:PrevStroke + sex:sysBP, 
-    ##     family = binomial, data = data_na)
-    ## [1] 3201.203
-    ## glm(formula = CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + 
-    ##     glucose + BMI.na + PrevStroke + smoker:cigsPerDay:glucose + 
-    ##     sex:sysBP, family = binomial, data = data_na)
-    ## [1] 3200.982
-    ## glm(formula = CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + 
-    ##     glucose + BMI.na + PrevStroke + smoker:cigsPerDay:BMI.na + 
-    ##     sex:sysBP, family = binomial, data = data_na)
-    ## [1] 3199.748
-    ## glm(formula = CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + 
-    ##     glucose + BMI.na + PrevStroke + smoker:cigsPerDay:PrevStroke + 
-    ##     sex:sysBP, family = binomial, data = data_na)
-    ## [1] 3201.196
-    ## glm(formula = CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + 
-    ##     glucose + BMI.na + PrevStroke + glucose:BMI.na + sex:sysBP, 
-    ##     family = binomial, data = data_na)
-    ## [1] 3201.141
-    ## glm(formula = CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + 
-    ##     glucose + BMI.na + PrevStroke + glucose:PrevStroke + sex:sysBP, 
-    ##     family = binomial, data = data_na)
-    ## [1] 3200.794
-
-``` r
 anova(m, int35, test = "Chisq")
 ```
-
-    ## Analysis of Deviance Table
-    ## 
-    ## Model 1: CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + glucose + 
-    ##     BMI.na + PrevStroke + sysBP:sex
-    ## Model 2: CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + glucose + 
-    ##     BMI.na + PrevStroke + sex:BMI.na + sex:sysBP
-    ##   Resid. Df Resid. Dev Df Deviance Pr(>Chi)  
-    ## 1      4229     3201.2                       
-    ## 2      4228     3197.5  1   3.7372  0.05321 .
-    ## ---
-    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 End Analysis of Deviance test.
 
@@ -1567,7 +1181,7 @@ binnedplot(fitted(m), residuals(m, type = "response"),
 abline(h = 0, lty = 2, col = "green")
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-24-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-25-1.png)<!-- -->
 
 Plot Cook’s distances:
 
@@ -1579,4 +1193,352 @@ plot(cooks.distance(m), type = "h", lwd = 2,
 abline(h = 1, lty = 2, col = "red")
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-25-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-26-1.png)<!-- -->
+
+# GAM Begins
+
+Initialize a GAM with all of our models.
+
+``` r
+gam.init <- gam(CHD_Risk~s(age)+education+s(cigsPerDay, smoker)+s(totChol)+s(sysBP)+s(diaBP)+s(BMI)+s(heartRate)+s(glucose)+sex+OnBPMeds+PrevStroke+Hyp+Diab, family = binomial, data = data_na)
+gam.age1 <- gam(CHD_Risk~education+s(cigsPerDay, smoker)+s(totChol)+s(sysBP)+s(diaBP)+s(BMI)+s(heartRate)+s(glucose)+sex+OnBPMeds+PrevStroke+Hyp+Diab, family = binomial, data = data_na)
+gam.education1 <- gam(CHD_Risk~s(age)+s(cigsPerDay,smoker)+s(totChol)+s(sysBP)+s(diaBP)+s(BMI)+s(heartRate)+s(glucose)+sex+OnBPMeds+PrevStroke+Hyp+Diab, family = binomial, data = data_na)
+gam.totChol1 <- gam(CHD_Risk~s(age)+education+s(cigsPerDay, smoker)+s(sysBP)+s(diaBP)+s(BMI)+s(heartRate)+s(glucose)+sex+OnBPMeds+PrevStroke+Hyp+Diab, family = binomial, data = data_na)
+gam.sysBP1 <- gam(CHD_Risk~s(age)+education+s(cigsPerDay,smoker)+s(totChol)+s(diaBP)+s(BMI)+s(heartRate)+s(glucose)+sex+OnBPMeds+PrevStroke+Hyp+Diab, family = binomial, data = data_na)
+gam.diaBP1 <- gam(CHD_Risk~s(age)+education+s(cigsPerDay,smoker)+s(totChol)+s(sysBP)+s(BMI)+s(heartRate)+s(glucose)+sex+OnBPMeds+PrevStroke+Hyp+Diab, family = binomial, data = data_na)
+gam.BMI1 <- gam(CHD_Risk~s(age)+education+s(cigsPerDay, smoker)+s(totChol)+s(sysBP)+s(diaBP)+s(heartRate)+s(glucose)+sex+OnBPMeds+PrevStroke+Hyp+Diab, family = binomial, data = data_na)
+gam.heartRate1 <- gam(CHD_Risk~s(age)+education+s(cigsPerDay, smoker)+s(totChol)+s(sysBP)+s(diaBP)+s(BMI)+s(glucose)+sex+OnBPMeds+PrevStroke+Hyp+Diab, family = binomial, data = data_na)
+gam.glucose1 <- gam(CHD_Risk~s(age)+education+s(cigsPerDay, smoker)+s(totChol)+s(sysBP)+s(diaBP)+s(BMI)+s(heartRate)+sex+OnBPMeds+PrevStroke+Hyp+Diab, family = binomial, data = data_na)
+gam.sex1 <- gam(CHD_Risk~s(age)+education+s(cigsPerDay, smoker)+s(totChol)+s(sysBP)+s(diaBP)+s(BMI)+s(heartRate)+s(glucose)+OnBPMeds+PrevStroke+Hyp+Diab, family = binomial, data = data_na)
+gam.smoker1 <- gam(CHD_Risk~s(age)+education+s(totChol)+s(sysBP)+s(diaBP)+s(BMI)+s(heartRate)+s(glucose)+sex+OnBPMeds+PrevStroke+Hyp+Diab, family = binomial, data = data_na)
+gam.OnBPMeds1 <- gam(CHD_Risk~s(age)+education+s(cigsPerDay, smoker)+s(totChol)+s(sysBP)+s(diaBP)+s(BMI)+s(heartRate)+s(glucose)+sex+PrevStroke+Hyp+Diab, family = binomial, data = data_na)
+gam.PrevStroke1 <- gam(CHD_Risk~s(age)+education+s(cigsPerDay, smoker)+s(totChol)+s(sysBP)+s(diaBP)+s(BMI)+s(heartRate)+s(glucose)+sex+OnBPMeds+Hyp+Diab, family = binomial, data = data_na)
+gam.Hyp1 <- gam(CHD_Risk~s(age)+education+s(cigsPerDay, smoker)+s(totChol)+s(sysBP)+s(diaBP)+s(BMI)+s(heartRate)+s(glucose)+sex+OnBPMeds+PrevStroke+Diab, family = binomial, data = data_na)
+gam.Diab1 <- gam(CHD_Risk~s(age)+education+s(cigsPerDay, smoker)+s(totChol)+s(sysBP)+s(diaBP)+s(BMI)+s(heartRate)+s(glucose)+sex+OnBPMeds+PrevStroke+Hyp, family = binomial, data = data_na)
+```
+
+Check for significance.
+
+``` r
+anova(gam.age1, gam.init, test = "Chisq")
+anova(gam.education1, gam.init, test = "Chisq")
+anova(gam.totChol1, gam.init, test = "Chisq")
+anova(gam.sysBP1, gam.init, test = "Chisq")
+anova(gam.diaBP1, gam.init, test = "Chisq")
+anova(gam.BMI1, gam.init, test = "Chisq")
+anova(gam.heartRate1, gam.init, test = "Chisq")
+anova(gam.glucose1, gam.init, test = "Chisq")
+anova(gam.sex1, gam.init, test = "Chisq")
+anova(gam.smoker1, gam.init, test = "Chisq")
+anova(gam.OnBPMeds1, gam.init, test = "Chisq")
+anova(gam.PrevStroke1, gam.init, test = "Chisq")
+anova(gam.Hyp1, gam.init, test = "Chisq")
+anova(gam.Diab1, gam.init, test = "Chisq")
+```
+
+First, remove Diab.
+
+``` r
+gam.init2 <- gam(CHD_Risk~s(age)+education+s(cigsPerDay, smoker)+s(totChol)+s(sysBP)+s(diaBP)+s(BMI)+s(heartRate)+s(glucose)+sex+OnBPMeds+PrevStroke+Hyp, family = binomial, data = data_na)
+gam.age2 <- gam(CHD_Risk~education+s(cigsPerDay, smoker)+s(totChol)+s(sysBP)+s(diaBP)+s(BMI)+s(heartRate)+s(glucose)+sex+OnBPMeds+PrevStroke+Hyp, family = binomial, data = data_na)
+gam.education2 <- gam(CHD_Risk~s(age)+s(cigsPerDay, smoker)+s(totChol)+s(sysBP)+s(diaBP)+s(BMI)+s(heartRate)+s(glucose)+sex+OnBPMeds+PrevStroke+Hyp, family = binomial, data = data_na)
+gam.totChol2 <- gam(CHD_Risk~s(age)+education+s(cigsPerDay, smoker)+s(sysBP)+s(diaBP)+s(BMI)+s(heartRate)+s(glucose)+sex+OnBPMeds+PrevStroke+Hyp, family = binomial, data = data_na)
+gam.sysBP2 <- gam(CHD_Risk~s(age)+education+s(cigsPerDay, smoker)+s(totChol)+s(diaBP)+s(BMI)+s(heartRate)+s(glucose)+sex+OnBPMeds+PrevStroke+Hyp, family = binomial, data = data_na)
+gam.diaBP2 <- gam(CHD_Risk~s(age)+education+s(cigsPerDay, smoker)+s(totChol)+s(sysBP)+s(BMI)+s(heartRate)+s(glucose)+sex+OnBPMeds+PrevStroke+Hyp, family = binomial, data = data_na)
+gam.BMI2 <- gam(CHD_Risk~s(age)+education+s(cigsPerDay, smoker)+s(totChol)+s(sysBP)+s(diaBP)+s(heartRate)+s(glucose)+sex+OnBPMeds+PrevStroke+Hyp, family = binomial, data = data_na)
+gam.heartRate2 <- gam(CHD_Risk~s(age)+education+s(cigsPerDay, smoker)+s(totChol)+s(sysBP)+s(diaBP)+s(BMI)+s(glucose)+sex+OnBPMeds+PrevStroke+Hyp, family = binomial, data = data_na)
+gam.glucose2 <- gam(CHD_Risk~s(age)+education+s(cigsPerDay, smoker)+s(totChol)+s(sysBP)+s(diaBP)+s(BMI)+s(heartRate)+sex+OnBPMeds+PrevStroke+Hyp, family = binomial, data = data_na)
+gam.sex2 <- gam(CHD_Risk~s(age)+education+s(cigsPerDay, smoker)+s(totChol)+s(sysBP)+s(diaBP)+s(BMI)+s(heartRate)+s(glucose)+OnBPMeds+PrevStroke+Hyp, family = binomial, data = data_na)
+gam.smoker2 <- gam(CHD_Risk~s(age)+education+s(totChol)+s(sysBP)+s(diaBP)+s(BMI)+s(heartRate)+s(glucose)+sex+OnBPMeds+PrevStroke+Hyp, family = binomial, data = data_na)
+gam.OnBPMeds2 <- gam(CHD_Risk~s(age)+education+s(cigsPerDay, smoker)+s(totChol)+s(sysBP)+s(diaBP)+s(BMI)+s(heartRate)+s(glucose)+sex+PrevStroke+Hyp, family = binomial, data = data_na)
+gam.PrevStroke2 <- gam(CHD_Risk~s(age)+education+s(cigsPerDay, smoker)+s(totChol)+s(sysBP)+s(diaBP)+s(BMI)+s(heartRate)+s(glucose)+sex+OnBPMeds+Hyp, family = binomial, data = data_na)
+gam.Hyp2 <- gam(CHD_Risk~s(age)+education+s(cigsPerDay, smoker)+s(totChol)+s(sysBP)+s(diaBP)+s(BMI)+s(heartRate)+s(glucose)+sex+OnBPMeds+PrevStroke, family = binomial, data = data_na)
+```
+
+Check for significance.
+
+``` r
+anova(gam.age2, gam.init2, test = "Chisq")
+anova(gam.education2, gam.init2, test = "Chisq")
+anova(gam.totChol2, gam.init2, test = "Chisq")
+anova(gam.sysBP2, gam.init2, test = "Chisq")
+anova(gam.diaBP2, gam.init2, test = "Chisq")
+anova(gam.BMI2, gam.init2, test = "Chisq")
+anova(gam.heartRate2, gam.init2, test = "Chisq")
+anova(gam.glucose2, gam.init2, test = "Chisq")
+anova(gam.sex2, gam.init2, test = "Chisq")
+anova(gam.smoker2, gam.init2, test = "Chisq")
+anova(gam.OnBPMeds2, gam.init2, test = "Chisq")
+anova(gam.PrevStroke2, gam.init2, test = "Chisq")
+anova(gam.Hyp2, gam.init2, test = "Chisq")
+```
+
+Remove OnBPMeds.
+
+``` r
+gam.init3 <- gam(CHD_Risk~s(age)+education+s(cigsPerDay, smoker)+s(totChol)+s(sysBP)+s(diaBP)+s(BMI)+s(heartRate)+s(glucose)+sex+PrevStroke+Hyp, family = binomial, data = data_na)
+gam.age3 <- gam(CHD_Risk~education+s(cigsPerDay, smoker)+s(totChol)+s(sysBP)+s(diaBP)+s(BMI)+s(heartRate)+s(glucose)+sex+PrevStroke+Hyp, family = binomial, data = data_na)
+gam.education3 <- gam(CHD_Risk~s(age)+s(cigsPerDay, smoker)+s(totChol)+s(sysBP)+s(diaBP)+s(BMI)+s(heartRate)+s(glucose)+sex+PrevStroke+Hyp, family = binomial, data = data_na)
+gam.totChol3 <- gam(CHD_Risk~s(age)+education+s(cigsPerDay, smoker)+s(sysBP)+s(diaBP)+s(BMI)+s(heartRate)+s(glucose)+sex+PrevStroke+Hyp, family = binomial, data = data_na)
+gam.sysBP3 <- gam(CHD_Risk~s(age)+education+s(cigsPerDay, smoker)+s(totChol)+s(diaBP)+s(BMI)+s(heartRate)+s(glucose)+sex+PrevStroke+Hyp, family = binomial, data = data_na)
+gam.diaBP3 <- gam(CHD_Risk~s(age)+education+s(cigsPerDay, smoker)+s(totChol)+s(sysBP)+s(BMI)+s(heartRate)+s(glucose)+sex+PrevStroke+Hyp, family = binomial, data = data_na)
+gam.BMI3 <- gam(CHD_Risk~s(age)+education+s(cigsPerDay, smoker)+s(totChol)+s(sysBP)+s(diaBP)+s(heartRate)+s(glucose)+sex+PrevStroke+Hyp, family = binomial, data = data_na)
+gam.heartRate3 <- gam(CHD_Risk~s(age)+education+s(cigsPerDay, smoker)+s(totChol)+s(sysBP)+s(diaBP)+s(BMI)+s(glucose)+sex+PrevStroke+Hyp, family = binomial, data = data_na)
+gam.glucose3 <- gam(CHD_Risk~s(age)+education+s(cigsPerDay, smoker)+s(totChol)+s(sysBP)+s(diaBP)+s(BMI)+s(heartRate)+sex+PrevStroke+Hyp, family = binomial, data = data_na)
+gam.sex3 <- gam(CHD_Risk~s(age)+education+s(cigsPerDay, smoker)+s(totChol)+s(sysBP)+s(diaBP)+s(BMI)+s(heartRate)+s(glucose)+PrevStroke+Hyp, family = binomial, data = data_na)
+gam.smoker3 <- gam(CHD_Risk~s(age)+education+s(totChol)+s(sysBP)+s(diaBP)+s(BMI)+s(heartRate)+s(glucose)+sex+PrevStroke+Hyp, family = binomial, data = data_na)
+gam.PrevStroke3 <- gam(CHD_Risk~s(age)+education+s(cigsPerDay, smoker)+s(totChol)+s(sysBP)+s(diaBP)+s(BMI)+s(heartRate)+s(glucose)+sex+Hyp, family = binomial, data = data_na)
+gam.Hyp3 <- gam(CHD_Risk~s(age)+education+s(cigsPerDay, smoker)+s(totChol)+s(sysBP)+s(diaBP)+s(BMI)+s(heartRate)+s(glucose)+sex+PrevStroke, family = binomial, data = data_na)
+```
+
+Check for significance.
+
+``` r
+anova(gam.age3, gam.init3, test = "Chisq")
+anova(gam.education3, gam.init3, test = "Chisq")
+anova(gam.totChol3, gam.init3, test = "Chisq")
+anova(gam.sysBP3, gam.init3, test = "Chisq")
+anova(gam.diaBP3, gam.init3, test = "Chisq")
+anova(gam.BMI3, gam.init3, test = "Chisq")
+anova(gam.heartRate3, gam.init3, test = "Chisq")
+anova(gam.glucose3, gam.init3, test = "Chisq")
+anova(gam.sex3, gam.init3, test = "Chisq")
+anova(gam.smoker3, gam.init3, test = "Chisq")
+anova(gam.PrevStroke3, gam.init3, test = "Chisq")
+anova(gam.Hyp3, gam.init3, test = "Chisq")
+```
+
+Remove Hyp.
+
+``` r
+gam.init4 <- gam(CHD_Risk~s(age)+education+s(cigsPerDay, smoker)+s(totChol)+s(sysBP)+s(diaBP)+s(BMI)+s(heartRate)+s(glucose)+sex+PrevStroke, family = binomial, data = data_na)
+gam.age4 <- gam(CHD_Risk~education+s(cigsPerDay, smoker)+s(totChol)+s(sysBP)+s(diaBP)+s(BMI)+s(heartRate)+s(glucose)+sex+PrevStroke, family = binomial, data = data_na)
+gam.education4 <- gam(CHD_Risk~s(age)+s(cigsPerDay, smoker)+s(totChol)+s(sysBP)+s(diaBP)+s(BMI)+s(heartRate)+s(glucose)+sex+PrevStroke, family = binomial, data = data_na)
+gam.totChol4 <- gam(CHD_Risk~s(age)+education+s(cigsPerDay, smoker)+s(sysBP)+s(diaBP)+s(BMI)+s(heartRate)+s(glucose)+sex+PrevStroke, family = binomial, data = data_na)
+gam.sysBP4 <- gam(CHD_Risk~s(age)+education+s(cigsPerDay, smoker)+s(totChol)+s(diaBP)+s(BMI)+s(heartRate)+s(glucose)+sex+PrevStroke, family = binomial, data = data_na)
+gam.diaBP4 <- gam(CHD_Risk~s(age)+education+s(cigsPerDay, smoker)+s(totChol)+s(sysBP)+s(BMI)+s(heartRate)+s(glucose)+sex+PrevStroke, family = binomial, data = data_na)
+gam.BMI4 <- gam(CHD_Risk~s(age)+education+s(cigsPerDay, smoker)+s(totChol)+s(sysBP)+s(diaBP)+s(heartRate)+s(glucose)+sex+PrevStroke, family = binomial, data = data_na)
+gam.heartRate4 <- gam(CHD_Risk~s(age)+education+s(cigsPerDay, smoker)+s(totChol)+s(sysBP)+s(diaBP)+s(BMI)+s(glucose)+sex+PrevStroke, family = binomial, data = data_na)
+gam.glucose4 <- gam(CHD_Risk~s(age)+education+s(cigsPerDay, smoker)+s(totChol)+s(sysBP)+s(diaBP)+s(BMI)+s(heartRate)+sex+PrevStroke, family = binomial, data = data_na)
+gam.sex4 <- gam(CHD_Risk~s(age)+education+s(cigsPerDay, smoker)+s(totChol)+s(sysBP)+s(diaBP)+s(BMI)+s(heartRate)+s(glucose)+PrevStroke, family = binomial, data = data_na)
+gam.smoker4 <- gam(CHD_Risk~s(age)+education+s(totChol)+s(sysBP)+s(diaBP)+s(BMI)+s(heartRate)+s(glucose)+sex+PrevStroke, family = binomial, data = data_na)
+gam.PrevStroke4 <- gam(CHD_Risk~s(age)+education+s(cigsPerDay, smoker)+s(totChol)+s(sysBP)+s(diaBP)+s(BMI)+s(heartRate)+s(glucose)+sex, family = binomial, data = data_na)
+```
+
+Check for significance.
+
+``` r
+anova(gam.age4, gam.init4, test = "Chisq")
+anova(gam.education4, gam.init4, test = "Chisq")
+anova(gam.totChol4, gam.init4, test = "Chisq")
+anova(gam.sysBP4, gam.init4, test = "Chisq")
+anova(gam.diaBP4, gam.init4, test = "Chisq")
+anova(gam.BMI4, gam.init4, test = "Chisq")
+anova(gam.heartRate4, gam.init4, test = "Chisq")
+anova(gam.glucose4, gam.init4, test = "Chisq")
+anova(gam.sex4, gam.init4, test = "Chisq")
+anova(gam.smoker4, gam.init4, test = "Chisq")
+anova(gam.PrevStroke4, gam.init4, test = "Chisq")
+```
+
+Remove education.
+
+``` r
+gam.init5 <- gam(CHD_Risk~s(age)+s(cigsPerDay, smoker)+s(totChol)+s(sysBP)+s(diaBP)+s(BMI)+s(heartRate)+s(glucose)+sex+PrevStroke, family = binomial, data = data_na)
+gam.age5 <- gam(CHD_Risk~s(cigsPerDay, smoker)+s(totChol)+s(sysBP)+s(diaBP)+s(BMI)+s(heartRate)+s(glucose)+sex+PrevStroke, family = binomial, data = data_na)
+gam.totChol5 <- gam(CHD_Risk~s(age)+s(cigsPerDay, smoker)+s(sysBP)+s(diaBP)+s(BMI)+s(heartRate)+s(glucose)+sex+PrevStroke, family = binomial, data = data_na)
+gam.sysBP5 <- gam(CHD_Risk~s(age)+s(cigsPerDay, smoker)+s(totChol)+s(diaBP)+s(BMI)+s(heartRate)+s(glucose)+sex+PrevStroke, family = binomial, data = data_na)
+gam.diaBP5 <- gam(CHD_Risk~s(age)+s(cigsPerDay, smoker)+s(totChol)+s(sysBP)+s(BMI)+s(heartRate)+s(glucose)+sex+PrevStroke, family = binomial, data = data_na)
+gam.BMI5 <- gam(CHD_Risk~s(age)+s(cigsPerDay, smoker)+s(totChol)+s(sysBP)+s(diaBP)+s(heartRate)+s(glucose)+sex+PrevStroke, family = binomial, data = data_na)
+gam.heartRate5 <- gam(CHD_Risk~s(age)+s(cigsPerDay, smoker)+s(totChol)+s(sysBP)+s(diaBP)+s(BMI)+s(glucose)+sex+PrevStroke, family = binomial, data = data_na)
+gam.glucose5 <- gam(CHD_Risk~s(age)+s(cigsPerDay, smoker)+s(totChol)+s(sysBP)+s(diaBP)+s(BMI)+s(heartRate)+sex+PrevStroke, family = binomial, data = data_na)
+gam.sex5 <- gam(CHD_Risk~s(age)+s(cigsPerDay, smoker)+s(totChol)+s(sysBP)+s(diaBP)+s(BMI)+s(heartRate)+s(glucose)+PrevStroke, family = binomial, data = data_na)
+gam.smoker5 <- gam(CHD_Risk~s(age)+s(totChol)+s(sysBP)+s(diaBP)+s(BMI)+s(heartRate)+s(glucose)+sex+PrevStroke, family = binomial, data = data_na)
+gam.PrevStroke5 <- gam(CHD_Risk~s(age)+s(cigsPerDay, smoker)+s(totChol)+s(sysBP)+s(diaBP)+s(BMI)+s(heartRate)+s(glucose)+sex, family = binomial, data = data_na)
+```
+
+Check for significance.
+
+``` r
+anova(gam.age5, gam.init5, test = "Chisq")
+anova(gam.totChol5, gam.init5, test = "Chisq")
+anova(gam.sysBP5, gam.init5, test = "Chisq")
+anova(gam.diaBP5, gam.init5, test = "Chisq")
+anova(gam.BMI5, gam.init5, test = "Chisq")
+anova(gam.heartRate5, gam.init5, test = "Chisq")
+anova(gam.glucose5, gam.init5, test = "Chisq")
+anova(gam.sex5, gam.init5, test = "Chisq")
+anova(gam.smoker5, gam.init5, test = "Chisq")
+anova(gam.PrevStroke5, gam.init5, test = "Chisq")
+
+# remove BMI
+```
+
+Remove BMI.
+
+``` r
+gam.init6 <- gam(CHD_Risk~s(age)+s(cigsPerDay, smoker)+s(totChol)+s(sysBP)+s(diaBP)+s(heartRate)+s(glucose)+sex+PrevStroke, family = binomial, data = data_na)
+gam.age6 <- gam(CHD_Risk~s(cigsPerDay, smoker)+s(totChol)+s(sysBP)+s(diaBP)+s(heartRate)+s(glucose)+sex+PrevStroke, family = binomial, data = data_na)
+gam.totChol6 <- gam(CHD_Risk~s(age)+s(cigsPerDay, smoker)+s(sysBP)+s(diaBP)+s(heartRate)+s(glucose)+sex+PrevStroke, family = binomial, data = data_na)
+gam.sysBP6 <- gam(CHD_Risk~s(age)+s(cigsPerDay, smoker)+s(totChol)+s(diaBP)+s(heartRate)+s(glucose)+sex+PrevStroke, family = binomial, data = data_na)
+gam.diaBP6 <- gam(CHD_Risk~s(age)+s(cigsPerDay, smoker)+s(totChol)+s(sysBP)+s(heartRate)+s(glucose)+sex+PrevStroke, family = binomial, data = data_na)
+gam.heartRate6 <- gam(CHD_Risk~s(age)+s(cigsPerDay, smoker)+s(totChol)+s(sysBP)+s(diaBP)+s(glucose)+sex+PrevStroke, family = binomial, data = data_na)
+gam.glucose6 <- gam(CHD_Risk~s(age)+s(cigsPerDay, smoker)+s(totChol)+s(sysBP)+s(diaBP)+s(heartRate)+sex+PrevStroke, family = binomial, data = data_na)
+gam.sex6 <- gam(CHD_Risk~s(age)+s(cigsPerDay, smoker)+s(totChol)+s(sysBP)+s(diaBP)+s(heartRate)+s(glucose)+PrevStroke, family = binomial, data = data_na)
+gam.smoker6 <- gam(CHD_Risk~s(age)+s(totChol)+s(sysBP)+s(diaBP)+s(heartRate)+s(glucose)+sex+PrevStroke, family = binomial, data = data_na)
+gam.PrevStroke6 <- gam(CHD_Risk~s(age)+s(cigsPerDay, smoker)+s(totChol)+s(sysBP)+s(diaBP)+s(heartRate)+s(glucose)+sex, family = binomial, data = data_na)
+```
+
+Check for significance.
+
+``` r
+anova(gam.age6, gam.init6, test = "Chisq")
+anova(gam.totChol6, gam.init6, test = "Chisq")
+anova(gam.sysBP6, gam.init6, test = "Chisq")
+anova(gam.diaBP6, gam.init6, test = "Chisq")
+anova(gam.heartRate6, gam.init6, test = "Chisq")
+anova(gam.glucose6, gam.init6, test = "Chisq")
+anova(gam.sex6, gam.init6, test = "Chisq")
+anova(gam.smoker6, gam.init6, test = "Chisq")
+anova(gam.PrevStroke6, gam.init6, test = "Chisq")
+```
+
+Remove heartrate
+
+``` r
+gam.init7 <- gam(CHD_Risk~s(age)+s(cigsPerDay, smoker)+s(totChol)+s(sysBP)+s(diaBP)+s(glucose)+sex+PrevStroke, family = binomial, data = data_na)
+gam.age7 <- gam(CHD_Risk~s(cigsPerDay, smoker)+s(totChol)+s(sysBP)+s(diaBP)+s(glucose)+sex+PrevStroke, family = binomial, data = data_na)
+gam.totChol7 <- gam(CHD_Risk~s(age)+s(cigsPerDay, smoker)+s(sysBP)+s(diaBP)+s(glucose)+sex+PrevStroke, family = binomial, data = data_na)
+gam.sysBP7 <- gam(CHD_Risk~s(age)+s(cigsPerDay, smoker)+s(totChol)+s(diaBP)+s(glucose)+sex+PrevStroke, family = binomial, data = data_na)
+gam.diaBP7 <- gam(CHD_Risk~s(age)+s(cigsPerDay, smoker)+s(totChol)+s(sysBP)+s(glucose)+sex+PrevStroke, family = binomial, data = data_na)
+gam.glucose7 <- gam(CHD_Risk~s(age)+s(cigsPerDay, smoker)+s(totChol)+s(sysBP)+s(diaBP)+sex+PrevStroke, family = binomial, data = data_na)
+gam.sex7 <- gam(CHD_Risk~s(age)+s(cigsPerDay, smoker)+s(totChol)+s(sysBP)+s(diaBP)+s(glucose)+PrevStroke, family = binomial, data = data_na)
+gam.smoker7 <- gam(CHD_Risk~s(age)+s(totChol)+s(sysBP)+s(diaBP)+s(glucose)+sex+PrevStroke, family = binomial, data = data_na)
+gam.PrevStroke7 <- gam(CHD_Risk~s(age)+s(cigsPerDay, smoker)+s(totChol)+s(sysBP)+s(diaBP)+s(glucose)+sex, family = binomial, data = data_na)
+```
+
+Check for Significance
+
+``` r
+anova(gam.age7, gam.init7, test = "Chisq")
+anova(gam.totChol7, gam.init7, test = "Chisq")
+anova(gam.sysBP7, gam.init7, test = "Chisq")
+anova(gam.diaBP7, gam.init7, test = "Chisq")
+anova(gam.glucose7, gam.init7, test = "Chisq")
+anova(gam.sex7, gam.init7, test = "Chisq")
+anova(gam.smoker7, gam.init7, test = "Chisq")
+anova(gam.PrevStroke7, gam.init7, test = "Chisq")
+```
+
+Remove PrevStroke.
+
+``` r
+gam.init8 <- gam(CHD_Risk~s(age)+s(cigsPerDay, smoker)+s(totChol)+s(sysBP)+s(diaBP)+s(glucose)+sex, family = binomial, data = data_na)
+gam.age8 <- gam(CHD_Risk~s(cigsPerDay, smoker)+s(totChol)+s(sysBP)+s(diaBP)+s(glucose)+sex, family = binomial, data = data_na)
+gam.totChol8 <- gam(CHD_Risk~s(age)+s(cigsPerDay, smoker)+s(sysBP)+s(diaBP)+s(glucose)+sex, family = binomial, data = data_na)
+gam.sysBP8 <- gam(CHD_Risk~s(age)+s(cigsPerDay, smoker)+s(totChol)+s(diaBP)+s(glucose)+sex, family = binomial, data = data_na)
+gam.diaBP8 <- gam(CHD_Risk~s(age)+s(cigsPerDay, smoker)+s(totChol)+s(sysBP)+s(glucose)+sex, family = binomial, data = data_na)
+gam.glucose8 <- gam(CHD_Risk~s(age)+s(cigsPerDay, smoker)+s(totChol)+s(sysBP)+s(diaBP)+sex, family = binomial, data = data_na)
+gam.sex8 <- gam(CHD_Risk~s(age)+s(cigsPerDay, smoker)+s(totChol)+s(sysBP)+s(diaBP)+s(glucose), family = binomial, data = data_na)
+gam.smoker8 <- gam(CHD_Risk~s(age)+s(totChol)+s(sysBP)+s(diaBP)+s(glucose)+sex, family = binomial, data = data_na)
+```
+
+Check for significance.
+
+``` r
+anova(gam.age8, gam.init8, test = "Chisq")
+anova(gam.totChol8, gam.init8, test = "Chisq")
+anova(gam.sysBP8, gam.init8, test = "Chisq")
+anova(gam.diaBP8, gam.init8, test = "Chisq")
+anova(gam.glucose8, gam.init8, test = "Chisq")
+anova(gam.sex8, gam.init8, test = "Chisq")
+anova(gam.smoker8, gam.init8, test = "Chisq")
+```
+
+# Report final model and check for improvement over glm
+
+``` r
+final.glm = glm(CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + glucose + totChol, family = binomial, data = data_na)
+gam.final <- gam(CHD_Risk~s(age)+s(cigsPerDay, smoker)+s(totChol)
+                 +s(sysBP)+s(diaBP)+s(glucose)+sex,
+                 family = binomial, data = data_na)
+anova(final.glm, gam.final, test = "Chi")
+```
+
+    ## Analysis of Deviance Table
+    ## 
+    ## Model 1: CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + glucose + 
+    ##     totChol
+    ## Model 2: CHD_Risk ~ s(age) + s(cigsPerDay, smoker) + s(totChol) + s(sysBP) + 
+    ##     s(diaBP) + s(glucose) + sex
+    ##   Resid. Df Resid. Dev     Df Deviance Pr(>Chi)   
+    ## 1      4231     3220.9                            
+    ## 2      4221     3196.4 10.044   24.552 0.006415 **
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+``` r
+summary(final.glm)
+```
+
+    ## 
+    ## Call:
+    ## glm(formula = CHD_Risk ~ 1 + age + sysBP + sex + smoker:cigsPerDay + 
+    ##     glucose + totChol, family = binomial, data = data_na)
+    ## 
+    ## Deviance Residuals: 
+    ##     Min       1Q   Median       3Q      Max  
+    ## -2.0190  -0.5956  -0.4366  -0.2947   2.8407  
+    ## 
+    ## Coefficients:
+    ##                    Estimate Std. Error z value Pr(>|z|)    
+    ## (Intercept)       -8.845557   0.437862 -20.202  < 2e-16 ***
+    ## age                0.064062   0.005962  10.745  < 2e-16 ***
+    ## sysBP              0.016894   0.002006   8.421  < 2e-16 ***
+    ## sexmale            0.510457   0.098074   5.205 1.94e-07 ***
+    ## glucose            0.007577   0.001636   4.631 3.64e-06 ***
+    ## totChol            0.001829   0.001023   1.788   0.0737 .  
+    ## smoker:cigsPerDay  0.010476   0.001928   5.435 5.49e-08 ***
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    ## 
+    ## (Dispersion parameter for binomial family taken to be 1)
+    ## 
+    ##     Null deviance: 3611.5  on 4237  degrees of freedom
+    ## Residual deviance: 3220.9  on 4231  degrees of freedom
+    ## AIC: 3234.9
+    ## 
+    ## Number of Fisher Scoring iterations: 5
+
+``` r
+summary(gam.final)
+```
+
+    ## 
+    ## Family: binomial 
+    ## Link function: logit 
+    ## 
+    ## Formula:
+    ## CHD_Risk ~ s(age) + s(cigsPerDay, smoker) + s(totChol) + s(sysBP) + 
+    ##     s(diaBP) + s(glucose) + sex
+    ## 
+    ## Parametric coefficients:
+    ##             Estimate Std. Error z value Pr(>|z|)    
+    ## (Intercept) -2.21037    0.07344 -30.097  < 2e-16 ***
+    ## sexmale      0.51992    0.09935   5.233 1.67e-07 ***
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    ## 
+    ## Approximate significance of smooth terms:
+    ##                        edf Ref.df  Chi.sq  p-value    
+    ## s(age)               2.405  3.028 109.411  < 2e-16 ***
+    ## s(cigsPerDay,smoker) 2.818  3.404  28.270 6.94e-06 ***
+    ## s(totChol)           1.006  1.012   3.501   0.0631 .  
+    ## s(sysBP)             1.000  1.000  26.196 3.09e-07 ***
+    ## s(diaBP)             5.424  6.542  11.215   0.0956 .  
+    ## s(glucose)           2.390  2.989  22.080 6.85e-05 ***
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    ## 
+    ## R-sq.(adj) =  0.105   Deviance explained = 11.5%
+    ## UBRE = -0.23774  Scale est. = 1         n = 4238

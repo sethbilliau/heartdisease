@@ -343,9 +343,9 @@ anova(gam.glucose4, gam.init4, test = "Chisq")
 anova(gam.sex4, gam.init4, test = "Chisq")
 anova(gam.smoker4, gam.init4, test = "Chisq")
 anova(gam.PrevStroke4, gam.init4, test = "Chisq")
+
+# Remove education
 ```
-
-
 
 
 
@@ -467,7 +467,6 @@ anova(gam.diaBP8, gam.init8, test = "Chisq")
 anova(gam.glucose8, gam.init8, test = "Chisq")
 anova(gam.sex8, gam.init8, test = "Chisq")
 anova(gam.smoker8, gam.init8, test = "Chisq")
-
 ```
 
 ```{r}
